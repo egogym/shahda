@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGO GYM - Shahda's Diet Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #2d2d2d;
+            --accent-color: #404040;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        .section-header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .meal-table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .meal-table th {
+            background: linear-gradient(45deg, #2d2d2d, var(--primary-color));
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .meal-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--accent-color);
+            text-align: center;
+        }
+
+        .meal-table tr:hover {
+            background-color: var(--accent-color);
+        }
+
+        .macro-card {
+            background-color: #1a1a1a;
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .program-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            border-radius: 8px;
+            z-index: 1000;
+            border: 1px solid var(--primary-color);
+        }
+
+        @media print {
+            .program-nav {
+                display: none;
+            }
+        }
+
+         /* Mobile Menu Styles */
+         #mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            z-index: 1000;
+            transition: left 0.3s ease-in-out;
+            overflow-y: auto;
+            padding-top: 60px;
+        }
+
+        #mobile-menu.open {
+            left: 0;
+        }
+
+        #mobile-menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1100;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #mobile-menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        #mobile-menu-toggle.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        #mobile-menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        #mobile-menu-toggle.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        @media screen and (min-width: 768px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button id="mobile-menu-toggle" aria-label="Toggle Mobile Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu">
+        <div class="space-y-4 p-6">
+            <a href="#overview" class="block text-white hover:text-red-500 text-2xl">Overview</a>
+            <a href="#day1" class="block text-white hover:text-red-500 text-2xl">Day 1: Push</a>
+            <a href="#day2" class="block text-white hover:text-red-500 text-2xl">Day 2: Pull</a>
+            <a href="#day3" class="block text-white hover:text-red-500 text-2xl">Day 3: Legs</a>
+            <a href="#day4" class="block text-white hover:text-red-500 text-2xl">Day 4: Upper Body</a>
+            <a href="#day5" class="block text-white hover:text-red-500 text-2xl">Day 5: Lower Body</a>
+            <a href="#guidelines" class="block text-white hover:text-red-500 text-2xl">Guidelines</a>
+            <a href="https://egogym.github.io/maryam/diet.html"
+               class="block text-red-500 hover:text-white font-bold mt-4 border-t border-red-800 pt-4 text-2xl">
+                Diet Plan →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = mobileMenu.querySelectorAll('a');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('open');
+                mobileMenu.classList.toggle('open');
+            });
+
+            // Close menu when a link is clicked
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                });
+            });
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="py-12">
+        <h1 class="text-6xl font-bold mb-4 text-red-600">EGO GYM</h1>
+        <h2 class="text-4xl font-bold mb-4 text-white">Shahda's Diet Plan</h2>
+        <p class="text-xl">Customized Nutrition Strategy for Optimal Results</p>
+    </header>
+
+    <!-- Daily Targets Section -->
+    <section id="macros" class="container mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-bold mb-4 section-header">Daily Targets</h2>
+        <div class="grid md:grid-cols-4 gap-4 mt-6">
+            <div class="macro-card">
+                <h3 class="text-red-500 font-bold mb-2">🔥 Daily Calories</h3>
+                <p class="text-2xl font-bold">1500-1600</p>
+                <p class="text-sm text-gray-400">kcal</p>
+            </div>
+            <div class="macro-card">
+                <h3 class="text-red-500 font-bold mb-2">💪 Protein</h3>
+                <p class="text-2xl font-bold">120g</p>
+                <p class="text-sm text-gray-400">daily target</p>
+            </div>
+            <div class="macro-card">
+                <h3 class="text-red-500 font-bold mb-2">🍞 Carbs</h3>
+                <p class="text-2xl font-bold">150g</p>
+                <p class="text-sm text-gray-400">daily target</p>
+            </div>
+            <div class="macro-card">
+                <h3 class="text-red-500 font-bold mb-2">🥑 Fats</h3>
+                <p class="text-2xl font-bold">50g</p>
+                <p class="text-sm text-gray-400">daily target</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meal Plan -->
+    <section class="container mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-bold mb-4 section-header">Daily Meal Plan</h2>
+        <table class="meal-table">
+            <thead>
+                <tr>
+                    <th>Meal & Time</th>
+                    <th>Foods</th>
+                    <th>Macros</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="breakfast">
+                    <td class="text-gray-300 font-bold">Breakfast<br>(Pre-Workout)</td>
+                    <td class="text-gray-300">
+                        • Option 1: Oatmeal (50g) + peanut butter (10g) + banana<br>
+                        • Option 2: Greek yogurt (150g) + mixed nuts (15g) + honey (1 tsp)<br>
+                        • Option 3: Whole wheat toast (2 slices) + cottage cheese (100g) + cucumbers
+                    </td>
+                    <td class="text-gray-300">
+                        300-350 kcal<br>
+                        Protein: 20-25g<br>
+                        Carbs: 30-40g<br>
+                        Fat: 10-15g
+                    </td>
+                </tr>
+                <tr id="snack1">
+                    <td class="text-gray-300 font-bold">First Snack</td>
+                    <td class="text-gray-300">
+                        • Handful of almonds (15g) + an apple<br>
+                        OR<br>
+                        • Cucumber + hummus (50g)
+                    </td>
+                    <td class="text-gray-300">
+                        150-200 kcal<br>
+                        Protein: 5-7g<br>
+                        Carbs: 15-20g<br>
+                        Fat: 10-12g
+                    </td>
+                </tr>
+                <tr id="lunch">
+                    <td class="text-gray-300 font-bold">Lunch<br>(Post-Workout)</td>
+                    <td class="text-gray-300">
+                        • Option 1: Grilled chicken (150g) + brown rice (100g) + sautéed veggies<br>
+                        • Option 2: Grilled salmon (130g) + mashed sweet potato (120g) + salad<br>
+                        • Option 3: Lean beef (120g) + quinoa (100g) + green beans
+                    </td>
+                    <td class="text-gray-300">
+                        400-450 kcal<br>
+                        Protein: 35-40g<br>
+                        Carbs: 40-50g<br>
+                        Fat: 10-15g
+                    </td>
+                </tr>
+                <tr id="snack2">
+                    <td class="text-gray-300 font-bold">Second Snack</td>
+                    <td class="text-gray-300">
+                        • Smoothie with almond milk + banana + chia seeds<br>
+                        OR<br>
+                        • Handful of walnuts + dried figs (2 pcs)
+                    </td>
+                    <td class="text-gray-300">
+                        200-250 kcal<br>
+                        Protein: 5-7g<br>
+                        Carbs: 20-25g<br>
+                        Fat: 10-15g
+                    </td>
+                </tr>
+                <tr id="dinner">
+                    <td class="text-gray-300 font-bold">Dinner</td>
+                    <td class="text-gray-300">
+                        • Option 1: Grilled shrimp (140g) + stir-fried veggies + avocado (50g)<br>
+                        • Option 2: Lentil soup + whole wheat crackers + side salad<br>
+                        • Option 3: Tuna (120g) + mixed greens + olive oil dressing
+                    </td>
+                    <td class="text-gray-300">
+                        350-400 kcal<br>
+                        Protein: 30-35g<br>
+                        Carbs: 25-35g<br>
+                        Fat: 10-15g
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Guidelines Section -->
+    <section id="guidelines" class="container mx-auto px-4 mb-12">
+        <h2 class="text-2xl font-bold mb-4 section-header">Guidelines & Tips</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-black p-6 rounded-lg border border-red-800">
+                <h3 class="text-xl text-red-500 mb-4">General Guidelines</h3>
+                <ul class="text-gray-300 space-y-2 text-left">
+                    <li>✅ Drink 2-3 liters of water daily</li>
+                    <li>✅ Have 3 main meals + 2 snacks</li>
+                    <li>✅ Limit processed sugars and fried foods</li>
+                    <li>✅ Pre-workout: Black coffee (optional) + light carb snack</li>
+                    <li>✅ Post-workout: Protein + healthy carbs</li>
+                </ul>
+            </div>
+            <div class="bg-black p-6 rounded-lg border border-red-800">
+                <h3 class="text-xl text-red-500 mb-4">Success Tips</h3>
+                <ul class="text-gray-300 space-y-2 text-left">
+                    <li>• Meal prep in advance when possible</li>
+                    <li>• Track your meals using a food diary</li>
+                    <li>• Stay consistent with meal timing</li>
+                    <li>• Monitor progress weekly</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-black text-white py-8 px-6 border-t border-red-800">
+        <div class="container mx-auto grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <h3 class="text-xl font-bold mb-4 text-red-500 flex items-center justify-center">
+                    <i class="bi bi-gear-fill text-white mr-2"></i>EGO GYM
+                </h3>
+                <p>Transform your body, transform your life.</p>
+            </div>
+            <div class="text-center">
+                <h3 class="text-xl font-bold mb-4 text-red-500">Connect With Us</h3>
+                <div class="space-y-4">
+                    <a href="https://www.instagram.com/egoo.gym" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-instagram text-2xl mr-3"></i> Follow us on Instagram
+                    </a>
+                    <a href="https://bit.ly/egogym-location" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-geo-alt-fill text-2xl mr-3"></i> Find Our Location
+                    </a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUJ0jFUxLIvjjVWFcNrHg9fl45bx3Fc3_0ry52y2lOPuHa_w/viewform?usp=dialog" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-chat-dots-fill text-2xl mr-3"></i> Feedback Form
+                    </a>
+                </div>
+            </div>
+            <div class="text-center">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-red-500 flex items-center justify-center">
+                        <i class="bi bi-envelope-fill text-white mr-2"></i> Contact Us
+                    </h3>
+                    <a href="mailto:contact@egogym.com" class="flex items-center justify-center hover:text-red-500 transition-colors mb-4">
+                        <i class="bi bi-envelope text-2xl mr-3"></i> contact@egogym.com
+                    </a>
+                </div>
+                <p class="text-sm text-gray-400">&copy; 2025 EGO GYM. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

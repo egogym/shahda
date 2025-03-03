@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGO GYM - Shahda's Machine Workout Program</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #2d2d2d;
+            --accent-color: #404040;
+        }
+
+        .youtube-btn {
+            background: linear-gradient(45deg, #cc0000, var(--primary-color));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            display: inline-block;
+        }
+
+        .youtube-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background-color: #1a1a1a;
+            text-align: center;
+        }
+
+        /* Mobile Menu Styles */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            z-index: 1000;
+            transition: left 0.3s ease-in-out;
+            overflow-y: auto;
+            padding-top: 60px;
+        }
+
+        #mobile-menu.open {
+            left: 0;
+        }
+
+        #mobile-menu-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 1100;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #mobile-menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        #mobile-menu-toggle.open span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        #mobile-menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        #mobile-menu-toggle.open span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        @media screen and (min-width: 768px) {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        .section-header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .workout-table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 2rem auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .workout-table th {
+            background: linear-gradient(45deg, #2d2d2d, var(--primary-color));
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .workout-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--accent-color);
+            text-align: center;
+        }
+
+        .workout-table tr:hover {
+            background-color: var(--accent-color);
+        }
+
+        section {
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 0 auto 2rem auto;
+            max-width: 1200px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media print {
+            #mobile-menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button id="mobile-menu-toggle" aria-label="Toggle Mobile Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu">
+        <div class="space-y-4 p-6">
+            <a href="#overview" class="block text-white hover:text-red-500 text-2xl">Overview</a>
+            <a href="#day1" class="block text-white hover:text-red-500 text-2xl">Day 1: Upper Body</a>
+            <a href="#day2" class="block text-white hover:text-red-500 text-2xl">Day 2: Lower Body</a>
+            <a href="#day4" class="block text-white hover:text-red-500 text-2xl">Day 4: Pull</a>
+            <a href="#day5" class="block text-white hover:text-red-500 text-2xl">Day 5: Full Body</a>
+            <a href="#guidelines" class="block text-white hover:text-red-500 text-2xl">Guidelines</a>
+            <a href="https://egogym.github.io/shahda/diet.html"
+               class="block text-red-500 hover:text-white font-bold mt-4 border-t border-red-800 pt-4 text-2xl">
+                Diet Plan →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuLinks = mobileMenu.querySelectorAll('a');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('open');
+                mobileMenu.classList.toggle('open');
+            });
+
+            // Close menu when a link is clicked
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('open');
+                    mobileMenu.classList.remove('open');
+                });
+            });
+        });
+    </script>
+
+    <!-- Header -->
+    <header class="py-12" id="overview">
+        <h1 class="text-6xl font-bold mb-4 text-red-600">EGO GYM</h1>
+        <h2 class="text-4xl font-bold mb-4 text-white">Shahda's Machine Workout Program</h2>
+        <p class="text-xl">5-Day Machine-Based Strength and Fat Loss Plan</p>
+    </header>
+
+    <!-- Program Overview -->
+    <section>
+        <h2 class="text-2xl font-bold mb-4 section-header">Program Overview</h2>
+        <p class="mb-4">This 5-day workout program focuses on machine-based exercises to build strength while targeting lower belly fat. The plan is designed for Shahda's specific schedule (Sunday, Tuesday, Thursday, Friday, Saturday) and includes targeted cardio and core work to support overall fitness goals.</p>
+    </section>
+
+    <!-- Day 1: Upper Body -->
+    <section id="day1">
+        <h2 class="text-2xl font-bold mb-4 section-header">Day 1: Upper Body - Push (Chest, Shoulders, Triceps)</h2>
+        <table class="workout-table">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Notes</th>
+                    <th>Tutorial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-gray-300">Machine Chest Press</td>
+                    <td class="text-gray-300">4 x 12</td>
+                    <td class="text-gray-300">Focus on controlled movement</td>
+                    <td><a href="https://www.youtube.com/watch?v=6orqvl9Tr0Q" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Shoulder Press Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Maintain proper posture</td>
+                    <td><a href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Cable Triceps Pushdown</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Keep elbows close to body</td>
+                    <td><a href="https://www.youtube.com/watch?v=2-GLmAx6wXA" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Lateral Raises</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Slow and controlled movement</td>
+                    <td><a href="https://www.youtube.com/watch?v=3VcKaXpzqRo" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cardio and Abs Section -->
+        <div class="mt-6">
+            <h4 class="text-lg font-bold mb-4 text-red-500">Cardio and Core</h4>
+            <table class="workout-table">
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration/Sets</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-gray-300">Cardio</td>
+                        <td class="text-gray-300">30 minutes</td>
+                        <td class="text-gray-300">Treadmill or Cycling</td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-300">Abs Circuit</td>
+                        <td class="text-gray-300">3 rounds</td>
+                        <td class="text-gray-300">Leg Raises + Russian Twists + Plank</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Day 2: Lower Body -->
+    <section id="day2">
+        <h2 class="text-2xl font-bold mb-4 section-header">Day 2: Lower Body - Legs & Glutes</h2>
+        <table class="workout-table">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Notes</th>
+                    <th>Tutorial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-gray-300">Leg Press Machine</td>
+                    <td class="text-gray-300">4 x 12</td>
+                    <td class="text-gray-300">Full range of motion</td>
+                    <td><a href="https://www.youtube.com/watch?v=UOE-rRdXiT0" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Leg Curl Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Control the movement</td>
+                    <td><a href="https://www.youtube.com/watch?v=ELOmrd3SceM" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Leg Extension Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Slow and controlled</td>
+                    <td><a href="https://www.youtube.com/watch?v=YyvSfJ_Z2gI" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Hip Thrust Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Focus on glute contraction</td>
+                    <td><a href="https://www.youtube.com/watch?v=LM8XHLYJoYs" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cardio and Abs Section -->
+        <div class="mt-6">
+            <h4 class="text-lg font-bold mb-4 text-red-500">Cardio and Core</h4>
+            <table class="workout-table">
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration/Sets</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-gray-300">Cardio</td>
+                        <td class="text-gray-300">30 minutes</td>
+                        <td class="text-gray-300">Stairmaster or Brisk Walking</td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-300">Abs Circuit</td>
+                        <td class="text-gray-300">3 rounds</td>
+                        <td class="text-gray-300">Bicycle Crunches + Hanging Leg Raises + Side Planks</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Day 3: Rest Day Note -->
+    <section>
+        <h2 class="text-2xl font-bold mb-4 section-header">Day 3: Rest / Active Recovery</h2>
+        <div class="bg-black p-6 rounded-lg border border-red-800 max-w-lg mx-auto">
+            <p class="text-gray-300">Focus on recovery with light stretching, yoga, or walking. Allow your muscles to repair and grow stronger.</p>
+        </div>
+    </section>
+
+    <!-- Day 4: Pull -->
+    <section id="day4">
+        <h2 class="text-2xl font-bold mb-4 section-header">Day 4: Pull - Back & Biceps</h2>
+        <table class="workout-table">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Notes</th>
+                    <th>Tutorial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-gray-300">Lat Pulldown Machine</td>
+                    <td class="text-gray-300">4 x 12</td>
+                    <td class="text-gray-300">Engage back muscles</td>
+                    <td><a href="https://www.youtube.com/watch?v=CAwf7n6G4d4" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Seated Row Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Squeeze shoulder blades</td>
+                    <td><a href="https://www.youtube.com/watch?v=roCP3wJY5xo" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Machine Bicep Curls</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Control the weight</td>
+                    <td><a href="https://www.youtube.com/watch?v=BkJzMxr0cgs" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Dumbbell Shrugs</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Full range of motion</td>
+                    <td><a href="https://www.youtube.com/watch?v=cJRj2X99E4Y" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cardio and Abs Section -->
+        <div class="mt-6">
+            <h4 class="text-lg font-bold mb-4 text-red-500">Cardio and Core</h4>
+            <table class="workout-table">
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration/Sets</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-gray-300">Cardio</td>
+                        <td class="text-gray-300">30 minutes</td>
+                        <td class="text-gray-300">Elliptical</td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-300">Abs Circuit</td>
+                        <td class="text-gray-300">3 rounds</td>
+                        <td class="text-gray-300">Hanging Knee Raises + Plank Hold + Toe Touches</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Day 5: Full Body -->
+    <section id="day5">
+        <h2 class="text-2xl font-bold mb-4 section-header">Day 5: Full Body & Core Focus</h2>
+        <table class="workout-table">
+            <thead>
+                <tr>
+                    <th>Exercise</th>
+                    <th>Sets x Reps</th>
+                    <th>Notes</th>
+                    <th>Tutorial</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-gray-300">Cable Squats</td>
+                    <td class="text-gray-300">4 x 12</td>
+                    <td class="text-gray-300">Keep chest up</td>
+                    <td><a href="https://www.youtube.com/watch?v=U5KXkUHYoNU" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Dumbbell Shoulder Press</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Control the movement</td>
+                    <td><a href="https://www.youtube.com/watch?v=qEwKCR5JCog" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Back Extension Machine</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Focus on lower back</td>
+                    <td><a href="https://www.youtube.com/watch?v=ph3pddpKzzw" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+                <tr>
+                    <td class="text-gray-300">Seated Calf Raises</td>
+                    <td class="text-gray-300">3 x 12</td>
+                    <td class="text-gray-300">Full contraction at top</td>
+                    <td><a href="https://www.youtube.com/watch?v=TFzpz6qlqYY" target="_blank" class="youtube-btn">Watch</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cardio and Abs Section -->
+        <div class="mt-6">
+            <h4 class="text-lg font-bold mb-4 text-red-500">Cardio and Core</h4>
+            <table class="workout-table">
+                <thead>
+                    <tr>
+                        <th>Activity</th>
+                        <th>Duration/Sets</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-gray-300">Cardio</td>
+                        <td class="text-gray-300">30 minutes</td>
+                        <td class="text-gray-300">Jump Rope or HIIT</td>
+                    </tr>
+                    <tr>
+                        <td class="text-gray-300">Abs Circuit</td>
+                        <td class="text-gray-300">3 rounds</td>
+                        <td class="text-gray-300">V-Ups + Weighted Sit-ups + Side Twists</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Guidelines Section -->
+    <section id="guidelines">
+        <h2 class="text-2xl font-bold mb-4 section-header">Training Guidelines</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-black p-6 rounded-lg border border-red-800">
+                <h3 class="text-xl text-red-500 mb-4">Rest & Recovery</h3>
+                <ul class="text-gray-300 space-y-2">
+                    <li>Aim for 6.5-7 hours of sleep each night</li>
+                    <li>Take rest days seriously to avoid injury</li>
+                    <li>Maintain proper hydration</li>
+                    <li>Listen to your body and adjust as needed</li>
+                </ul>
+            </div>
+            <div class="bg-black p-6 rounded-lg border border-red-800">
+                <h3 class="text-xl text-red-500 mb-4">Key Recommendations</h3>
+                <ul class="text-gray-300 space-y-2">
+                    <li>Maintain consistency with 4-5 workouts per week</li>
+                    <li>Focus on proper form over lifting heavy weights</li>
+                    <li>Progress gradually by increasing weight or reps</li>
+                    <li>Combine with appropriate nutrition for best results</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-8 px-6 border-t border-red-800">
+        <div class="container mx-auto grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <h3 class="text-xl font-bold mb-4 text-red-500 flex items-center justify-center">
+                    <i class="bi bi-gear-fill text-white mr-2"></i>EGO GYM
+                </h3>
+                <p>Transform your body, transform your life.</p>
+            </div>
+            <div class="text-center">
+                <h3 class="text-xl font-bold mb-4 text-red-500">Connect With Us</h3>
+                <div class="space-y-4">
+                    <a href="https://www.instagram.com/egoo.gym" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-instagram text-2xl mr-3"></i> Follow us on Instagram
+                    </a>
+                    <a href="https://bit.ly/egogym-location" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-geo-alt-fill text-2xl mr-3"></i> Find Our Location
+                    </a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdUJ0jFUxLIvjjVWFcNrHg9fl45bx3Fc3_0ry52y2lOPuHa_w/viewform?usp=dialog" target="_blank" class="flex items-center justify-center hover:text-red-500 transition-colors">
+                        <i class="bi bi-chat-dots-fill text-2xl mr-3"></i> Feedback Form
+                    </a>
+                </div>
+            </div>
+            <div class="text-center">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 text-red-500 flex items-center justify-center">
+                        <i class="bi bi-envelope-fill text-white mr-2"></i> Contact Us
+                    </h3>
+                    <a href="mailto:contact@egogym.com" class="flex items-center justify-center hover:text-red-500 transition-colors mb-4">
+                        <i class="bi bi-envelope text-2xl mr-3"></i> contact@egogym.com
+                    </a>
+                </div>
+                <p class="text-sm text-gray-400">&copy; 2025 EGO GYM. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
